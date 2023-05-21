@@ -36,22 +36,22 @@ public:
 
 private:
     /// TODO: confirm with Hiring team if Market orders are allowed or not. 
-    void addMarketOrder(Order& order) {}
+    void addMarketOrder([[maybe_unused]] Order& order) {}
 
     void addLimitOrder(Order& order) {
         if (isBuyOrder(order)) {
             static std::greater_equal<PriceT> ge;
-            tryCrossingSpread(order, m_buyBook, m_sellBook, ge);
+            tryCrossingSpread(order, m_sellBook, ge);
             addOrderInBook(order, m_buyBook);
         } else {
             static std::less_equal<PriceT> le;
-            tryCrossingSpread(order, m_sellBook, m_buyBook, le);
+            tryCrossingSpread(order, m_buyBook, le);
             addOrderInBook(order, m_sellBook);
         }
     }
 
-    template <typename BookT, typename OppBookT, typename Comp>
-    void tryCrossingSpread(Order& order, BookT& book, OppBookT& oppBook, Comp& comp) {
+    template <typename BookT, typename Comp>
+    void tryCrossingSpread(Order& order, BookT& oppBook, Comp& comp) {
         for (auto& [prc, priceBucket] : oppBook) {
             if (order.m_qty == 0 or not comp(order.m_prc, prc)) {
                 break;

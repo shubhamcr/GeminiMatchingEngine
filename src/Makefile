@@ -56,6 +56,12 @@ price_bucket_test.o : $(USER_TEST_DIR)/PriceBucket.t.cpp $(SRC_HEADERS) $(GTEST_
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(SRC_DIR) -c $(USER_TEST_DIR)/PriceBucket.t.cpp \
 			-o $(BUILD_DIR)/price_bucket_test.o
 
-test : price_bucket_test.o gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $(BUILD_DIR)/gtest_main.a $(BUILD_DIR)/price_bucket_test.o \
+order_book_test.o : $(USER_TEST_DIR)/OrderBook.t.cpp $(SRC_HEADERS) $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(SRC_DIR) -c $(USER_TEST_DIR)/OrderBook.t.cpp \
+			-o $(BUILD_DIR)/order_book_test.o
+
+test : price_bucket_test.o order_book_test.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $(BUILD_DIR)/gtest_main.a \
+			$(BUILD_DIR)/price_bucket_test.o \
+			$(BUILD_DIR)/order_book_test.o \
 			-o $(BUILD_DIR)/match_engine_test
