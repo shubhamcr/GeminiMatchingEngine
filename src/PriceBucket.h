@@ -2,6 +2,7 @@
 
 #include "Order.h"
 
+#include <iostream>
 #include <list>
 
 namespace gemini
@@ -11,7 +12,7 @@ class PriceBucket
 {
 public:
     PriceBucket() = default;
-    PriceBucket(const Order& order) : m_prc{order.m_prc}, m_volume{order.m_qty}, m_orders{order}
+    PriceBucket(const Order& order) : m_volume{order.m_qty}, m_orders{order}
     {
     }
     
@@ -32,7 +33,7 @@ public:
             auto fillQty = std::min(order.m_qty, counterOrder.m_qty);
             std::cout << "TRADE " << order.m_symbol << " " << order.m_orderId 
                       << " " << counterOrder.m_orderId << " " << fillQty
-                      << " " << m_prc << std::endl;
+                      << " " << counterOrder.m_prc << std::endl;
             
             m_volume -= fillQty;
             order.m_qty -= fillQty;
@@ -49,9 +50,12 @@ public:
 
     const std::list<Order>& getOrders() const noexcept { return m_orders; }
 
+    QtyT getVolume() const noexcept { return m_volume; }
+
+    PriceT getPrice() const noexcept { return m_orders.empty() ? 0 : m_orders.front().m_prc; }
+
 private:
-    PriceT m_prc{};
-    uint64_t m_volume{};
+    QtyT m_volume{};
     std::list<Order> m_orders;
 };
 

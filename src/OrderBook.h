@@ -35,6 +35,7 @@ public:
     }
 
 private:
+    /// TODO: confirm with Hiring team if Market orders are allowed or not. 
     void addMarketOrder(Order& order) {}
 
     void addLimitOrder(Order& order) {
