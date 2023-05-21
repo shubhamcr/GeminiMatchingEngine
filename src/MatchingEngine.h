@@ -21,6 +21,20 @@ public:
     
     void printAllOrdersInArrivalOrder()
     {
+        auto allOrders = getAllOrdersSortedByArrivalTime();
+        std::cout << std::endl;
+        for (const auto& order : allOrders) {
+            std::cout << order.m_orderId << " " << utils::getSide(order.m_side) << " " 
+                      << order.m_symbol << " " << order.m_qty << " "
+                      << order.m_prc << std::endl;
+        }
+    }
+
+    /**
+     *  @return vector of all orders present in the system sorted by their arrival times.
+     *  In the resultant vector all SELL orders are present before BUY orders.
+     */
+    std::vector<Order> getAllOrdersSortedByArrivalTime() const {
         std::vector<Order> allOrders;
         for (const auto& [symbol, book] : m_symbolToOrderBook) {
             auto orders = book.getAllOrders();
@@ -34,12 +48,7 @@ public:
             return o1.m_timestamp < o2.m_timestamp;
         });
 
-        std::cout << std::endl;
-        for (const auto& order : allOrders) {
-            std::cout << order.m_orderId << " " << utils::getSide(order.m_side) << " " 
-                      << order.m_symbol << " " << order.m_qty << " "
-                      << order.m_prc << std::endl;
-        }
+        return allOrders;
     }
 
 private:

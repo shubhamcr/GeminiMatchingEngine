@@ -5,9 +5,11 @@ SRC_DIR = .
 SRC_HEADERS = $(SRC_DIR)/*.h
 BUILD_DIR = ./build
 
-.PHONY: build
-build : main.cpp $(SRC_HEADERS)
+create_build_dir :
 	mkdir -p $(BUILD_DIR)
+
+.PHONY: build
+build : create_build_dir main.cpp $(SRC_HEADERS)
 	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/match_engine main.cpp
 
 .PHONY: clean
@@ -52,6 +54,10 @@ gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $(BUILD_DIR)/gtest_main.a $(BUILD_DIR)/gtest-all.o $(BUILD_DIR)/gtest_main.o
 
 
+matchine_engine_test.o : $(USER_TEST_DIR)/MatchingEngine.t.cpp $(SRC_HEADERS) $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(SRC_DIR) -c $(USER_TEST_DIR)/MatchingEngine.t.cpp \
+			-o $(BUILD_DIR)/matchine_engine_test.o
+
 price_bucket_test.o : $(USER_TEST_DIR)/PriceBucket.t.cpp $(SRC_HEADERS) $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(SRC_DIR) -c $(USER_TEST_DIR)/PriceBucket.t.cpp \
 			-o $(BUILD_DIR)/price_bucket_test.o
@@ -60,8 +66,9 @@ order_book_test.o : $(USER_TEST_DIR)/OrderBook.t.cpp $(SRC_HEADERS) $(GTEST_HEAD
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(SRC_DIR) -c $(USER_TEST_DIR)/OrderBook.t.cpp \
 			-o $(BUILD_DIR)/order_book_test.o
 
-test : price_bucket_test.o order_book_test.o gtest_main.a
+test : create_build_dir gtest_main.a matchine_engine_test.o price_bucket_test.o order_book_test.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $(BUILD_DIR)/gtest_main.a \
+			$(BUILD_DIR)/matchine_engine_test.o \
 			$(BUILD_DIR)/price_bucket_test.o \
 			$(BUILD_DIR)/order_book_test.o \
 			-o $(BUILD_DIR)/match_engine_test
