@@ -4,16 +4,12 @@
 
 #include <string>
 
-namespace gemini::utils
-{
+namespace gemini::utils {
 
-Side getSide(const std::string& side) {
+Side getSide(const std::string &side) {
     return side == "BUY" ? Side::BUY : Side::SELL;
 }
 
-std::string getSide(Side side) {
-    return side == Side::BUY ? "BUY" : "SELL";
-}
+std::string getSide(Side side) { return side == Side::BUY ? "BUY" : "SELL"; }
 
 } // namespace gemini::utils
-

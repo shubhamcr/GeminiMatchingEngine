@@ -1,20 +1,17 @@
 #include "PriceBucket.h"
-
 #include "gtest/gtest.h"
 
-namespace gemini::test
-{
+namespace gemini::test {
 
-TEST(PriceBucketTest, addOrder)
-{
+TEST(PriceBucketTest, addOrder) {
     Order o1{"order1", Side::BUY, "BTCUSD", 5, 10000, 0};
     Order o2{"order2", Side::SELL, "BTCUSD", 6, 10000, 1};
     Order o3{"order3", Side::SELL, "BTCUSD", 7, 10000, 2};
 
     std::list<Order> orders{o1, o2, o3};
-    
+
     PriceBucket priceBucket;
-    for (const auto& order : orders) {
+    for (const auto &order : orders) {
         priceBucket.addOrder(order);
     }
 
@@ -24,14 +21,13 @@ TEST(PriceBucketTest, addOrder)
     EXPECT_EQ(10000, priceBucket.getPrice());
 }
 
-TEST(PriceBucketTest, fillOrder)
-{
+TEST(PriceBucketTest, fillOrder) {
     Order o1{"order1", Side::SELL, "BTCUSD", 5, 10000, 0};
     Order o2{"order2", Side::SELL, "BTCUSD", 6, 10000, 1};
     Order o3{"order3", Side::SELL, "BTCUSD", 7, 10000, 2};
     std::list<Order> orders{o1, o2, o3};
     PriceBucket priceBucket;
-    for (const auto& order : orders) {
+    for (const auto &order : orders) {
         priceBucket.addOrder(order);
     }
     EXPECT_EQ(orders.size(), priceBucket.numOrders());
@@ -45,14 +41,13 @@ TEST(PriceBucketTest, fillOrder)
     EXPECT_EQ(10000, priceBucket.getPrice());
 }
 
-TEST(PriceBucketTest, fillOrderConsumeFullBook)
-{
+TEST(PriceBucketTest, fillOrderConsumeFullBook) {
     Order o1{"order1", Side::SELL, "BTCUSD", 5, 10000, 0};
     Order o2{"order2", Side::SELL, "BTCUSD", 6, 10000, 1};
     Order o3{"order3", Side::SELL, "BTCUSD", 7, 10000, 2};
     std::list<Order> orders{o1, o2, o3};
     PriceBucket priceBucket;
-    for (const auto& order : orders) {
+    for (const auto &order : orders) {
         priceBucket.addOrder(order);
     }
     EXPECT_EQ(orders.size(), priceBucket.numOrders());

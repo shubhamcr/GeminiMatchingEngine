@@ -1,7 +1,6 @@
 #pragma once
 
-namespace gemini
-{
+namespace gemini {
 
 enum Side {
     BUY,

@@ -6,8 +6,7 @@
 #include <cstdint>
 #include <string>
 
-namespace gemini
-{
+namespace gemini {
 
 struct Order {
     std::string m_orderId;
@@ -17,10 +16,10 @@ struct Order {
     PriceT m_prc;
     TimeT m_timestamp;
 
-    bool operator==(const Order& other) const {
-        return m_orderId == other.m_orderId and
-        m_side == other.m_side and m_symbol == other.m_symbol and
-        m_qty == other.m_qty and m_prc == other.m_prc;
+    bool operator==(const Order &other) const {
+        return m_orderId == other.m_orderId and m_side == other.m_side and
+               m_symbol == other.m_symbol and m_qty == other.m_qty and
+               m_prc == other.m_prc;
     }
 };
 

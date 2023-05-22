@@ -1,14 +1,11 @@
-#include "OrderBook.h"
-
 #include <vector>
 
+#include "OrderBook.h"
 #include "gtest/gtest.h"
 
-namespace gemini::test
-{
+namespace gemini::test {
 
-TEST(OrderBookTest, addOrder)
-{
+TEST(OrderBookTest, addOrder) {
     Order o1{"12345", Side::BUY, "BTCUSD", 5, 10000, 0};
     Order o2{"zod42", Side::SELL, "BTCUSD", 2, 10001, 1};
     Order o3{"13471", Side::BUY, "BTCUSD", 6, 9971, 2};
@@ -24,8 +21,7 @@ TEST(OrderBookTest, addOrder)
 }
 
 /// Test for the case when no order gets filled as the spread is never crossed.
-TEST(OrderBookTest, addOrderZeroOrdersFilled)
-{
+TEST(OrderBookTest, addOrderZeroOrdersFilled) {
     std::vector<QtyT> qty{5, 2, 6, 7, 8, 15, 20};
     Order o1{"12345", Side::BUY, "BTCUSD", qty[0], 10000, 0};
     Order o2{"zod42", Side::SELL, "BTCUSD", qty[1], 10001, 1};
